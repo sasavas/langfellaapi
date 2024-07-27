@@ -1,6 +1,5 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
-import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
