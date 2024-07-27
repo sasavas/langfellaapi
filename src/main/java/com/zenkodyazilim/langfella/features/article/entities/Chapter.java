@@ -19,8 +19,8 @@ public class Chapter {
 
     private String title;
 
-//    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<ContentItem> contents = new ArrayList<>();
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContentItem> contents = new ArrayList<>();
 
     private int wordCount;
 
