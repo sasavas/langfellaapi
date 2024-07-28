@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 public class LanguageServiceTest {
 
     @Mock
+    @SuppressWarnings("unused")
     private LanguageRepository languageRepository;
 
     @InjectMocks

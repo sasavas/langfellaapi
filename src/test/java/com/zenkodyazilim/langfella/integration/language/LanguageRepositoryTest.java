@@ -15,9 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LanguageRepositoryTest {
 
     @Autowired
+    @SuppressWarnings("unused")
     private TestEntityManager entityManager;
 
     @Autowired
+    @SuppressWarnings("unused")
     private LanguageRepository languageRepository;
 
     @Test
