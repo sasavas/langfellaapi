@@ -3,6 +3,7 @@ package com.zenkodyazilim.langfella.common.apierrors;
 import com.zenkodyazilim.langfella.common.constants.MessageKeys;
 import com.zenkodyazilim.langfella.common.exceptions.DomainValidationException;
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
+import jakarta.annotation.Nonnull;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +23,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            @Nonnull HttpMessageNotReadableException ex,
+            @Nonnull HttpHeaders headers,
+            @Nonnull HttpStatusCode status,
+            @Nonnull WebRequest request) {
         String error = "Malformed JSON request";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
     }
