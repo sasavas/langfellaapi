@@ -1,5 +1,6 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,8 @@ public class Author {
     private String lastName;
 
     @ManyToOne
+    @JoinColumn(name = "article_id")
+    @JsonBackReference
     private Article article;
 
     public static Author Create(String firstName, String lastName){

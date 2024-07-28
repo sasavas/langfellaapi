@@ -1,5 +1,6 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zenkodyazilim.langfella.features.article.entities.converters.LevelConverter;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -27,9 +28,11 @@ public class Article {
     private Level level;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Author> authors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Chapter> chapters = new ArrayList<>();
 
     private int wordCount;
@@ -38,14 +41,12 @@ public class Article {
     public static Article CreateByAuthors(
             String languageCode,
             String levelCode,
-            String title,
-            List<Author> authors
+            String title
     ) {
         return Article.builder()
                 .languageCode(languageCode)
                 .level(Level.findByLevelCode(levelCode))
                 .title(title)
-                .authors(authors)
                 .build();
     }
 

@@ -1,5 +1,8 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.zenkodyazilim.langfella.features.article.exceptions.ChapterMustHaveContentException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,12 +22,15 @@ public class Chapter {
 
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ContentItem> contents;
 
     private int wordCount;
 
-    @ManyToOne(targetEntity = Article.class)
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    @JsonBackReference
     private Article article;
 
     public static Chapter Create(Article article, String title, List<ContentItem> contentItems) {
