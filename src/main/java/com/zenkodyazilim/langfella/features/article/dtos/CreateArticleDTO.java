@@ -7,5 +7,5 @@ public record CreateArticleDTO(
         String title,
         String levelCode,
         List<AuthorDTO> authors,
-        List<ChapterDTO> chapters) {
+        List<ChapterCreateDTO> chapters) {
 }
