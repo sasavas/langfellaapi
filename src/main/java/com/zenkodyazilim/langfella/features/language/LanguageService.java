@@ -17,7 +17,7 @@ public class LanguageService {
         return languageRepository.findAll();
     }
 
-    public Optional<Language> isValidLanguage(String languageCode){
-        return languageRepository.findLanguageByLanguageCode(languageCode);
+    public boolean isValidLanguage(String languageCode){
+        return languageRepository.existsByLanguageCode(languageCode);
     }
 }

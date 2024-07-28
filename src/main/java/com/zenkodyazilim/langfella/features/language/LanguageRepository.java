@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-interface LanguageRepository extends JpaRepository<Language, String> {
+public interface LanguageRepository extends JpaRepository<Language, String> {
     Optional<Language> findLanguageByLanguageCode(String languageCode);
+    boolean existsByLanguageCode(String languageCode);
 }
