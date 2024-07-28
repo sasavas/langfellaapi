@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "articles")
@@ -41,7 +40,7 @@ public class Article {
             String levelCode,
             String title,
             List<Author> authors
-    ){
+    ) {
         return Article.builder()
                 .languageCode(languageCode)
                 .level(Level.findByLevelCode(levelCode))
@@ -49,5 +48,22 @@ public class Article {
                 .authors(authors)
                 .build();
     }
+
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
+        var allWords = getAllWordsInAllChapters(chapters);
+        this.wordCount = allWords.size();
+        this.uniqueWordCount = new HashSet<>(allWords).size();
+    }
+
+    private static List<String> getAllWordsInAllChapters(List<Chapter> chapters) {
+        return chapters
+                .stream()
+                .flatMap(c -> c.getContents().stream())
+                .flatMap(ci -> Arrays.stream(ci.getContent().split(" ")))
+                .toList();
+    }
+
+
 //    public List<Word> words;
 }
