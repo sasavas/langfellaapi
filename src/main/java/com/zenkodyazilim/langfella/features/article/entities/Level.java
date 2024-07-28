@@ -22,6 +22,6 @@ public record Level(String code, String description) {
         return AllLevels.stream()
                 .filter(x -> x.code.equals(levelCode))
                 .findFirst()
-                .orElseThrow(IllegalLevelCodeException::new);
+                .orElseThrow(() -> new IllegalLevelCodeException(levelCode));
     }
 }

@@ -38,7 +38,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     protected ResponseEntity<Object> handleDomainValidationException(DomainValidationException ex){
         ApiError apiError = new ApiError(BAD_REQUEST);
-        apiError.setMessage(ex.getMessage()); // the message we got in the exception class
+        apiError.setMessage(ex.getMessage());
         apiError.setMessageKey(MessageKeys.DOMAIN_VALIDATION);
         return buildResponseEntity(apiError);
     }
