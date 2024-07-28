@@ -12,6 +12,7 @@ public record ArticleDTO(
         String title,
         String source,
         List<Author> authors,
+        List<ChapterGetDTO> chapterSummaries,
         int chapterCount,
         int wordCount,
         int uniqueWordCount
@@ -24,6 +25,7 @@ public record ArticleDTO(
                 article.getTitle(),
                 article.getSource(),
                 article.getAuthors(),
+                article.getChapters().stream().map(ChapterGetDTO::of).toList(),
                 article.getChapters().size(),
                 article.getWordCount(),
                 article.getUniqueWordCount());

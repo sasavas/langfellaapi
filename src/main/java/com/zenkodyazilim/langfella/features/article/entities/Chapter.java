@@ -3,7 +3,6 @@ package com.zenkodyazilim.langfella.features.article.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -38,5 +37,14 @@ public class Chapter {
                         .reduce(Integer::sum)
                         .orElseThrow())
                 .build();
+    }
+
+    public String getSummary() {
+        return contents.stream()
+                .filter(c -> c.getTag().equals(ContentTag.P))
+                .map(ContentItem::getContent)
+                .findFirst()
+                .map(c -> c.length() >= 120 ? c.substring(0, 120) : c)
+                .orElse("");
     }
 }
