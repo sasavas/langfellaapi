@@ -7,7 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Table(name = "articles")
@@ -50,19 +53,20 @@ public class Article {
                 .build();
     }
 
-    public void setChapters(List<Chapter> chapters) {
-        this.chapters = chapters;
-        var allWords = getAllWordsInAllChapters(chapters);
-        this.wordCount = allWords.size();
-        this.uniqueWordCount = new HashSet<>(allWords).size();
-    }
-
     private static List<String> getAllWordsInAllChapters(List<Chapter> chapters) {
         return chapters
                 .stream()
                 .flatMap(c -> c.getContents().stream())
                 .flatMap(ci -> Arrays.stream(ci.getContent().split(" ")))
                 .toList();
+    }
+
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
+
+        var allWords = getAllWordsInAllChapters(chapters);
+        this.wordCount = allWords.size();
+        this.uniqueWordCount = new HashSet<>(allWords).size();
     }
 
 
