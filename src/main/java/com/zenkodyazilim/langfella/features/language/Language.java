@@ -14,6 +14,6 @@ import lombok.Setter;
 @Entity
 public class Language{
     @Id
-    private String LanguageCode;
-    private String FullName;
+    private String languageCode;
+    private String fullName;
 }

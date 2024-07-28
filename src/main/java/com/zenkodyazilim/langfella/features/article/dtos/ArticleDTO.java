@@ -3,10 +3,9 @@ package com.zenkodyazilim.langfella.features.article.dtos;
 import com.zenkodyazilim.langfella.features.article.entities.Article;
 import com.zenkodyazilim.langfella.features.article.entities.Author;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public record ArticleListItemDto(
+public record ArticleDTO(
         Long id,
         String languageCode,
         String level,
@@ -17,18 +16,15 @@ public record ArticleListItemDto(
         int wordCount,
         int uniqueWordCount
 ) {
-    public static ArticleListItemDto FromArticle(Article article) {
-        return new ArticleListItemDto(
+    public static ArticleDTO FromArticle(Article article) {
+        return new ArticleDTO(
                 article.getId(),
                 article.getLanguageCode(),
-                "A1",
-//                article.getLevel().code(),
+                article.getLevel().code(),
                 article.getTitle(),
                 article.getSource(),
-                new ArrayList<>(),
-//                article.getAuthors(),
-                10,
-//                article.getChapters().size(),
+                article.getAuthors(),
+                article.getChapters().size(),
                 article.getWordCount(),
                 article.getUniqueWordCount());
     }

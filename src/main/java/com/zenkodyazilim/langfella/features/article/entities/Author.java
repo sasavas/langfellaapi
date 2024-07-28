@@ -1,19 +1,18 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
-import com.zenkodyazilim.langfella.common.models.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "author")
 public class Author {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -21,4 +20,8 @@ public class Author {
 
     @ManyToOne
     private Article article;
+
+    public static Author Create(String firstName, String lastName){
+        return Author.builder().firstName(firstName).lastName(lastName).build();
+    }
 }

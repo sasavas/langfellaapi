@@ -1,16 +1,15 @@
 package com.zenkodyazilim.langfella.features.article;
 
-import com.zenkodyazilim.langfella.features.article.dtos.ArticleListItemDto;
+import com.zenkodyazilim.langfella.features.article.dtos.ArticleDTO;
+import com.zenkodyazilim.langfella.features.article.dtos.CreateArticleDTO;
+import com.zenkodyazilim.langfella.features.article.entities.Level;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("articles")
+@RequestMapping("/articles")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -20,7 +19,35 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArticleListItemDto>> getArticles() {
+    public ResponseEntity<List<ArticleDTO>> getArticles() {
         return ResponseEntity.ok(articleService.getArticles());
+    }
+
+    @PostMapping
+    public ResponseEntity<ArticleDTO> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
+        var created = articleService.createArticle(createArticleDTO);
+        return ResponseEntity.ok(created);
+    }
+
+    // TODO
+    //    @GetMapping("{articleId}/words")
+    //    public List<WordDto> getArticleWords(long articleId){
+    //        return ResponseEntity.ok(articleService.getArticleWords());
+    //    }
+
+    @GetMapping("{articleId}")
+    public ResponseEntity<ArticleDTO> getById(Long articleId) {
+        return ResponseEntity.ok(articleService.getArticleById(articleId));
+    }
+
+    @DeleteMapping("{articleId}")
+    public ResponseEntity<Void> deleteArticle(Long articleId) {
+        articleService.deleteArticle(articleId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("allLanguageLevels")
+    public ResponseEntity<List<Level>> getAllLevels() {
+        return ResponseEntity.ok(Level.AllLevels);
     }
 }

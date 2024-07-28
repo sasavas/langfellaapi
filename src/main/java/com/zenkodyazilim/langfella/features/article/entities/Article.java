@@ -2,6 +2,7 @@ package com.zenkodyazilim.langfella.features.article.entities;
 
 import com.zenkodyazilim.langfella.features.article.entities.converters.LevelConverter;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +13,10 @@ import java.util.List;
 @Table(name = "articles")
 @Getter
 @Setter
+@Builder
 public class Article {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String languageCode;
@@ -22,7 +25,7 @@ public class Article {
     private String source;
 
     @Convert(converter = LevelConverter.class)
-    private String level;
+    private Level level;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Author> authors = new ArrayList<>();
@@ -32,5 +35,19 @@ public class Article {
 
     private int wordCount;
     private int uniqueWordCount;
+
+    public static Article CreateByAuthors(
+            String languageCode,
+            String levelCode,
+            String title,
+            List<Author> authors
+    ){
+        return Article.builder()
+                .languageCode(languageCode)
+                .level(Level.findByLevelCode(levelCode))
+                .title(title)
+                .authors(authors)
+                .build();
+    }
 //    public List<Word> words;
 }
