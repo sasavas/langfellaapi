@@ -46,7 +46,7 @@ public class ArticleController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("allLanguageLevels")
+    @GetMapping("languageLevels")
     public ResponseEntity<List<Level>> getAllLevels() {
         return ResponseEntity.ok(Level.AllLevels);
     }
