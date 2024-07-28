@@ -1,6 +1,6 @@
 package com.zenkodyazilim.langfella.order;
 
-import com.zenkodyazilim.langfella.common.exceptions.DomainValidationException;
+import com.zenkodyazilim.langfella.common.exceptions.LangfellaValidationException;
 import com.zenkodyazilim.langfella.common.messagebroker.OrderMessage;
 import com.zenkodyazilim.langfella.inventory.InventoryService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,7 +20,7 @@ class CheckoutService {
 
     public void placeOrder(Order order) {
         if (!inventoryService.isAvailable(order.getItem(), order.getQuantity())) {
-            throw new DomainValidationException(Order.class.getSimpleName(), "Insufficient stock for item: " + order.getItem());
+            throw new LangfellaValidationException(Order.class.getSimpleName(), "Insufficient stock for item: " + order.getItem());
         }
 
         rabbitTemplate.convertAndSend(

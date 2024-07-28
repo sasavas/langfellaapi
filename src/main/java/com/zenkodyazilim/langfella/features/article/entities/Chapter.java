@@ -34,6 +34,10 @@ public class Chapter {
     private Article article;
 
     public static Chapter Create(Article article, String title, List<ContentItem> contentItems) {
+        if (contentItems == null || contentItems.isEmpty()) {
+            throw new ChapterMustHaveContentException();
+        }
+
         return Chapter.builder()
                 .title(title)
                 .article(article)
@@ -41,7 +45,7 @@ public class Chapter {
                 .wordCount(contentItems.stream()
                         .map(c -> c.getContent().split(" ").length)
                         .reduce(Integer::sum)
-                        .orElseThrow())
+                        .orElseThrow(ChapterMustHaveContentException::new))
                 .build();
     }
 
