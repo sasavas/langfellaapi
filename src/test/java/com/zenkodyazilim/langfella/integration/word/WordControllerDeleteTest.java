@@ -12,13 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @ActiveProfiles("test")
+@DirtiesContext
 public class WordControllerDeleteTest {
 
     @Autowired
@@ -37,6 +38,7 @@ public class WordControllerDeleteTest {
     }
 
     @Test
+    @Transactional
     public void testDeleteWord() throws Exception {
         // Perform the delete request and expect a 204 No Content status
         mockMvc.perform(delete("/api/words/{id}", 1L))
