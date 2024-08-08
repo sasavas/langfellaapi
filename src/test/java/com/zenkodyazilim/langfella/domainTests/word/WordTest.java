@@ -10,7 +10,6 @@ import com.zenkodyazilim.langfella.features.word.exceptions.WordMustContainTrans
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,20 +18,14 @@ public class WordTest {
 
     @Test
     public void testCreateWord() {
-        Set<Translation> translations = new HashSet<>();
-        translations.add(new Translation("mot"));
-
-        Set<ExampleSentence> exampleSentences = new HashSet<>();
-        exampleSentences.add(new ExampleSentence("This is an example sentence containing the word."));
-
         Word word = new Word(
                 "word",
                 "en",
                 "fr",
                 Familiarity.NEW.ordinal()
         );
-        word.setTranslations(translations);
-        word.setExampleSentences(exampleSentences);
+        word.setTranslations(Set.of(new Translation("mot")));
+        word.setExampleSentences(Set.of(new ExampleSentence("This is an example sentence containing the word.")));
 
         assertNotNull(word);
         assertEquals("word", word.getText());
@@ -41,6 +34,7 @@ public class WordTest {
         assertEquals(Familiarity.NEW, word.getFamiliarity());
         assertNotNull(word.getTranslations());
         assertEquals(1, word.getTranslations().size());
+
         assertEquals("mot", word.getTranslations().iterator().next().getText());
         assertNotNull(word.getExampleSentences());
         assertEquals(1, word.getExampleSentences().size());
