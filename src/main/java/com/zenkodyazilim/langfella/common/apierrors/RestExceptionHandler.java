@@ -1,7 +1,7 @@
 package com.zenkodyazilim.langfella.common.apierrors;
 
 import com.zenkodyazilim.langfella.common.constants.MessageKeys;
-import com.zenkodyazilim.langfella.common.exceptions.LangfellaValidationException;
+import com.zenkodyazilim.langfella.common.exceptions.EntityValidationException;
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
 import jakarta.annotation.Nonnull;
 import org.springframework.core.Ordered;
@@ -41,7 +41,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    protected ResponseEntity<Object> handleDomainValidationException(LangfellaValidationException ex){
+    protected ResponseEntity<Object> handleDomainValidationException(EntityValidationException ex){
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
         apiError.setMessageKey(MessageKeys.DOMAIN_VALIDATION);

@@ -1,8 +1,8 @@
 package com.zenkodyazilim.langfella.features.article.exceptions;
 
-import com.zenkodyazilim.langfella.common.exceptions.LangfellaValidationException;
+import com.zenkodyazilim.langfella.common.exceptions.EntityValidationException;
 
-public class IllegalLevelCodeException extends LangfellaValidationException {
+public class IllegalLevelCodeException extends EntityValidationException {
     public IllegalLevelCodeException(String givenValue) {
         super("Level", givenValue);
     }
