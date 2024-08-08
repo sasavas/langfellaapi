@@ -1,6 +1,7 @@
 package com.zenkodyazilim.langfella.features.word.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Translation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Translation extends BaseEntity {
     private String text;
 
     public Translation(String text){

@@ -6,8 +6,8 @@ import com.zenkodyazilim.langfella.features.article.dtos.CreateArticleDTO;
 import com.zenkodyazilim.langfella.features.article.entities.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -19,13 +19,13 @@ public class ArticleService {
 
     public List<ArticleDTO> getArticles() {
         return articleRepository.findAll()
-                .stream().map(ArticleDTO::FromArticle)
+                .stream().map(ArticleDTO::of)
                 .toList();
     }
 
     public ArticleDTO getArticleById(Long articleId) {
         return articleRepository.findById(articleId)
-                .map(ArticleDTO::FromArticle)
+                .map(ArticleDTO::of)
                 .orElseThrow(() -> new EntityNotFoundException(Article.class.getSimpleName(), articleId.toString()));
     }
 
@@ -60,6 +60,6 @@ public class ArticleService {
         article.setAuthors(authors);
 
         var created = articleRepository.save(article);
-        return ArticleDTO.FromArticle(created);
+        return ArticleDTO.of(created);
     }
 }

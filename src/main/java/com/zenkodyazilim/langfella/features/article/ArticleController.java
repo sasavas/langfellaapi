@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/api/articles")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -36,12 +36,13 @@ public class ArticleController {
     //    }
 
     @GetMapping("{articleId}")
-    public ResponseEntity<ArticleDTO> getById(Long articleId) {
-        return ResponseEntity.ok(articleService.getArticleById(articleId));
+    public ResponseEntity<ArticleDTO> getById(@PathVariable long articleId) {
+        var article = articleService.getArticleById(articleId);
+        return ResponseEntity.ok(article);
     }
 
     @DeleteMapping("{articleId}")
-    public ResponseEntity<Void> deleteArticle(Long articleId) {
+    public ResponseEntity<Void> deleteArticle(@PathVariable long articleId) {
         articleService.deleteArticle(articleId);
         return ResponseEntity.noContent().build();
     }

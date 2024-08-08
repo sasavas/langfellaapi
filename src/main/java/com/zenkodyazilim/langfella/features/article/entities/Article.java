@@ -1,11 +1,10 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import com.zenkodyazilim.langfella.features.article.entities.converters.LevelConverter;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +16,9 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Article {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@NoArgsConstructor
+@AllArgsConstructor
+public class Article extends BaseEntity {
     private String languageCode;
 
     private String title;

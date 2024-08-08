@@ -2,6 +2,7 @@ package com.zenkodyazilim.langfella.features.article.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import com.zenkodyazilim.langfella.features.article.exceptions.ChapterMustHaveContentException;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,11 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "chapter")
-public class Chapter {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Chapter extends BaseEntity {
     private String title;
 
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)

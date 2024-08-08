@@ -1,21 +1,18 @@
 package com.zenkodyazilim.langfella.features.article.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
 @Builder
 @Table(name = "author")
-public class Author {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@NoArgsConstructor
+@AllArgsConstructor
+public class Author extends BaseEntity {
     private String firstName;
     private String lastName;
 

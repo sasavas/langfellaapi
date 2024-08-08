@@ -6,7 +6,7 @@ import com.zenkodyazilim.langfella.features.article.entities.Author;
 import java.util.List;
 
 public record ArticleDTO(
-        Long id,
+        long id,
         String languageCode,
         String level,
         String title,
@@ -17,7 +17,7 @@ public record ArticleDTO(
         int wordCount,
         int uniqueWordCount
 ) {
-    public static ArticleDTO FromArticle(Article article) {
+    public static ArticleDTO of(Article article) {
         return new ArticleDTO(
                 article.getId(),
                 article.getLanguageCode(),
