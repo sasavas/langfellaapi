@@ -1,6 +1,7 @@
 package com.zenkodyazilim.langfella.features.word.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import com.zenkodyazilim.langfella.features.word.exceptions.ExampleSentenceMustContainTheWordException;
 import com.zenkodyazilim.langfella.features.word.exceptions.WordMustContainTranslationException;
 import jakarta.persistence.*;
@@ -15,11 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Word {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+public class Word extends BaseEntity {
     private String text;
     private String sourceLanguageCode;
     private String targetLanguageCode;

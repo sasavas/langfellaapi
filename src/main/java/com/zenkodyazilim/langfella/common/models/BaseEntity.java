@@ -2,12 +2,13 @@ package com.zenkodyazilim.langfella.common.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 @Getter
+@Setter
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 }
