@@ -1,6 +1,8 @@
 package com.zenkodyazilim.langfella.features.word.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.zenkodyazilim.langfella.features.word.exceptions.ExampleSentenceMustContainTheWordException;
+import com.zenkodyazilim.langfella.features.word.exceptions.WordMustContainTranslationException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.Set;
 public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String text;
     private String sourceLanguageCode;
@@ -42,5 +44,21 @@ public class Word {
         this.sourceLanguageCode = sourceLanguageCode;
         this.targetLanguageCode = targetLanguageCode;
         this.familiarity = Familiarity.fromInt(familiarity);
+    }
+
+    public void setTranslations(Set<Translation> translations){
+        if(translations.isEmpty()){
+            throw new WordMustContainTranslationException();
+        }
+
+        this.translations = translations;
+    }
+
+    public void setExampleSentences(Set<ExampleSentence> exampleSentences){
+        if(!exampleSentences.stream().allMatch(p -> p.getText().contains(this.getText()))){
+            throw new ExampleSentenceMustContainTheWordException();
+        }
+
+        this.exampleSentences = exampleSentences;
     }
 }

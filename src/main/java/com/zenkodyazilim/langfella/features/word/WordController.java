@@ -1,6 +1,7 @@
 package com.zenkodyazilim.langfella.features.word;
 
 import com.zenkodyazilim.langfella.features.word.dtos.CreateWordDTO;
+import com.zenkodyazilim.langfella.features.word.dtos.UpdateWordDTO;
 import com.zenkodyazilim.langfella.features.word.entities.Word;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,29 @@ public class WordController {
 
     @GetMapping
     public ResponseEntity<List<Word>> getWords() {
-        return new ResponseEntity<>(wordService.getWords(), HttpStatus.OK);
+        return ResponseEntity.ok(wordService.getWords());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Word> getWordById(@PathVariable("id") long id) {
+        return ResponseEntity.ok(wordService.getWordById(id));
     }
 
     @PostMapping
     public ResponseEntity<Word> createWord(@Valid @RequestBody CreateWordDTO createWordDTO) {
         var word = wordService.createWord(createWordDTO);
         return new ResponseEntity<>(word, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Word> updateWord(@PathVariable("id") long id, @RequestBody UpdateWordDTO updateWordDTO){
+        var updatedWord = wordService.updateWord(id, updateWordDTO);
+        return ResponseEntity.ok(updatedWord);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteWord(@PathVariable("id") long id){
+        wordService.deleteWord(id);
+        return ResponseEntity.noContent().build();
     }
 }

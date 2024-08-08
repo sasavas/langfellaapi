@@ -18,8 +18,7 @@ public class Translation {
     private String text;
 
     public Translation(String text){
-        var translation = new Translation();
-        translation.setText(text);
+        this.setText(text);
     }
 
     @ManyToOne
