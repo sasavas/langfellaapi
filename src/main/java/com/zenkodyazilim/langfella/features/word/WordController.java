@@ -36,13 +36,13 @@ public class WordController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Word> updateWord(@PathVariable("id") long id, @RequestBody UpdateWordDTO updateWordDTO){
+    public ResponseEntity<Word> updateWord(@PathVariable("id") long id, @RequestBody UpdateWordDTO updateWordDTO) {
         var updatedWord = wordService.updateWord(id, updateWordDTO);
         return ResponseEntity.ok(updatedWord);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteWord(@PathVariable("id") long id){
+    public ResponseEntity<Void> deleteWord(@PathVariable("id") long id) {
         wordService.deleteWord(id);
         return ResponseEntity.noContent().build();
     }

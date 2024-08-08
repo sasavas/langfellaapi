@@ -1,20 +1,28 @@
 package com.zenkodyazilim.langfella.features.article;
 
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
+import com.zenkodyazilim.langfella.features.article.dtos.AddWordToArticleDTO;
 import com.zenkodyazilim.langfella.features.article.dtos.ArticleDTO;
 import com.zenkodyazilim.langfella.features.article.dtos.CreateArticleDTO;
 import com.zenkodyazilim.langfella.features.article.entities.*;
+import com.zenkodyazilim.langfella.features.article.exceptions.ArticleMustContainAtLeastOneChapterException;
+import com.zenkodyazilim.langfella.features.word.WordService;
+import com.zenkodyazilim.langfella.features.word.dtos.CreateWordDTO;
+import com.zenkodyazilim.langfella.features.word.entities.Word;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final WordService wordService;
 
-    public ArticleService(ArticleRepository articleRepository) {
+    public ArticleService(ArticleRepository articleRepository, WordService wordService) {
         this.articleRepository = articleRepository;
+        this.wordService = wordService;
     }
 
     public List<ArticleDTO> getArticles() {
@@ -33,6 +41,7 @@ public class ArticleService {
         articleRepository.deleteById(articleId);
     }
 
+    @Transactional
     public ArticleDTO createArticle(CreateArticleDTO createArticleDTO) {
         // create article
         var article = Article.CreateByAuthors(
@@ -40,6 +49,10 @@ public class ArticleService {
                 createArticleDTO.levelCode(),
                 createArticleDTO.title()
         );
+
+        if(createArticleDTO.chapters() == null || createArticleDTO.chapters().isEmpty()){
+            throw new ArticleMustContainAtLeastOneChapterException();
+        }
 
         // create and link chapters
         var chapters = createArticleDTO.chapters().stream()
@@ -61,5 +74,26 @@ public class ArticleService {
 
         var created = articleRepository.save(article);
         return ArticleDTO.of(created);
+    }
+
+    @Transactional
+    public Word addWordToArticle(long articleId, AddWordToArticleDTO addWordToArticleDTO) {
+        var article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new EntityNotFoundException(Article.class.getSimpleName(), String.valueOf(articleId)));
+
+        return wordService.createWord(new CreateWordDTO(
+                addWordToArticleDTO.text(),
+                article.getLanguageCode(),
+                addWordToArticleDTO.targetLanguageCode(),
+                addWordToArticleDTO.translations(),
+                addWordToArticleDTO.exampleSentence(),
+                addWordToArticleDTO.familiarity(),
+                Optional.of(articleId),
+                Optional.of(addWordToArticleDTO.chapterId())
+        ));
+    }
+
+    public List<Word> getArticleWords(long articleId) {
+        return wordService.getWordsByArticleId(articleId);
     }
 }

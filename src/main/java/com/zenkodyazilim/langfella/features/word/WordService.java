@@ -6,6 +6,7 @@ import com.zenkodyazilim.langfella.features.word.dtos.UpdateWordDTO;
 import com.zenkodyazilim.langfella.features.word.entities.ExampleSentence;
 import com.zenkodyazilim.langfella.features.word.entities.Translation;
 import com.zenkodyazilim.langfella.features.word.entities.Word;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,19 +30,28 @@ public class WordService {
                 .orElseThrow(() -> new EntityNotFoundException(Word.class.getSimpleName(), String.valueOf(id)));
     }
 
+    @Transactional
     public Word createWord(CreateWordDTO createWordDTO) {
         Word word = new Word(
                 createWordDTO.text(),
                 createWordDTO.sourceLanguageCode(),
                 createWordDTO.targetLanguageCode(),
-                createWordDTO.familiarity());
+                createWordDTO.familiarity().orElse(0));
+
+        if (createWordDTO.articleId().isPresent()) {
+            word.setArticleId(createWordDTO.articleId().get());
+        }
+
+        if (createWordDTO.chapterId().isPresent()) {
+            word.setChapterId(createWordDTO.chapterId().get());
+        }
 
         var translations = createWordDTO.translations().stream().map(Translation::new).collect(Collectors.toSet());
         translations.forEach(t -> t.setWord(word));
         word.setTranslations(translations);
 
-        if (!createWordDTO.exampleSentence().isEmpty()) {
-            var sentence = new ExampleSentence(createWordDTO.exampleSentence());
+        if (createWordDTO.exampleSentence().isPresent()) {
+            var sentence = new ExampleSentence(createWordDTO.exampleSentence().get());
             sentence.setWord(word);
             word.setExampleSentences(Set.of(sentence));
         }
@@ -49,6 +59,7 @@ public class WordService {
         return wordRepository.save(word);
     }
 
+    @Transactional
     public Word updateWord(long id, UpdateWordDTO updateWordDTO) {
         var word = wordRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Word.class.getSimpleName(), String.valueOf(id)));
@@ -76,5 +87,9 @@ public class WordService {
     public void deleteWord(long id) {
         var word = wordRepository.getReferenceById(id);
         wordRepository.delete(word);
+    }
+
+    public List<Word> getWordsByArticleId(long articleId) {
+        return wordRepository.findByArticleId(articleId);
     }
 }
