@@ -31,15 +31,15 @@ public class ArticleController {
         return ResponseEntity.ok(created);
     }
 
-    @GetMapping("{articleId}")
-    public ResponseEntity<ArticleDTO> getById(@PathVariable long articleId) {
-        var article = articleService.getArticleById(articleId);
+    @GetMapping("{id}")
+    public ResponseEntity<ArticleDTO> getArticleById(@PathVariable long id) {
+        var article = articleService.getArticleById(id);
         return ResponseEntity.ok(article);
     }
 
-    @DeleteMapping("{articleId}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable long articleId) {
-        articleService.deleteArticle(articleId);
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
+        articleService.deleteArticle(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -53,7 +53,7 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getArticleWords(id));
     }
 
-    @PostMapping("{id}/addWord")
+    @PostMapping("{id}/words")
     public ResponseEntity<Word> addWordToArticle(
             @PathVariable long id, @RequestBody AddWordToArticleDTO addWordToArticleDTO) {
         var addedWord = articleService.addWordToArticle(id, addWordToArticleDTO);
