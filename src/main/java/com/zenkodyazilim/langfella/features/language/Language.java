@@ -1,19 +1,18 @@
 package com.zenkodyazilim.langfella.features.language;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.util.List;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
-@Entity
 public class Language{
-    @Id
     private String languageCode;
     private String fullName;
+
+    public static final Language TURKISH = new Language("tr", "Türkçe");
+    public static final Language ENGLISH = new Language("en", "English");
+
+    public static final List<Language> LANGUAGE_LIST = List.of(TURKISH, ENGLISH);
 }

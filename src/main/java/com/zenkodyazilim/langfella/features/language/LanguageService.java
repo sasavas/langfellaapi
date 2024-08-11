@@ -6,17 +6,11 @@ import java.util.List;
 
 @Service
 public class LanguageService {
-    private final LanguageRepository languageRepository;
-
-    LanguageService(LanguageRepository languageRepository) {
-        this.languageRepository = languageRepository;
+    public List<Language> getLanguages() {
+        return Language.LANGUAGE_LIST;
     }
 
-    public List<Language> getLanguage() {
-        return languageRepository.findAll();
-    }
-
-    public boolean isValidLanguage(String languageCode){
-        return languageRepository.existsByLanguageCode(languageCode);
+    public boolean isValidLanguage(String languageCode) {
+        return Language.LANGUAGE_LIST.stream().anyMatch(l -> l.getLanguageCode().equalsIgnoreCase(languageCode));
     }
 }
