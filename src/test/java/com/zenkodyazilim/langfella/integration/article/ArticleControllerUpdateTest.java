@@ -83,7 +83,7 @@ public class ArticleControllerUpdateTest {
 
         String json = objectMapper.writeValueAsString(addWordToArticleDTO);
 
-        mockMvc.perform(post("/api/articles/" + article.id() + "/addWord")
+        mockMvc.perform(post("/api/articles/" + article.id() + "/words")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(jsonPath("$.articleId").value(1))
