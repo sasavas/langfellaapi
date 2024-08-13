@@ -29,7 +29,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+*.DS_Store
+
 ### VS Code ###
 .vscode/
 
-api-keys.properties
+src/main/resources/api-keys.properties
