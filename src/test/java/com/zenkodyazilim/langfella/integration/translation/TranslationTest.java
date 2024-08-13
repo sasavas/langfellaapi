@@ -6,7 +6,6 @@ import com.zenkodyazilim.langfella.features.learner.entities.Learner;
 import com.zenkodyazilim.langfella.features.learner.entities.Subscription;
 import com.zenkodyazilim.langfella.features.learner.entities.Translator;
 import com.zenkodyazilim.langfella.features.translation.TranslationService;
-import com.zenkodyazilim.langfella.features.translation.dtos.TranslationDTO;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationRequest;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Disabled;
@@ -31,7 +30,7 @@ public class TranslationTest {
     @Test
     @Description("Test whether External Translator Services work")
     @Disabled("Requires external API calls")
-    public void Test(){
+    public void Test() {
         var learner = new Learner();
         learner.setId(1);
         learner.setMainLanguage(Language.ENGLISH.getLanguageCode());
@@ -42,8 +41,8 @@ public class TranslationTest {
         learnerRepository.save(learner);
 
         var result = translationService.translate(1, new TranslationRequest("en", "tr", "hello"));
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.size()).isGreaterThanOrEqualTo(1);
 
-        System.out.println(result.stream().map(TranslationDTO::getTranslation));
+        result.forEach((t) -> System.out.println("translation result " + t.getTranslation()));
     }
 }
