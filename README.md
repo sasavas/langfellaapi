@@ -1,3 +1,9 @@
+## TODO (Non-Functional Requirements)
+
+- [ ] Rate Limiting
+- [ ] Request Validations
+- [ ] Exception Handling
+
 ## DEPLOY
 
 ### Private Settings/Api keys etc.
