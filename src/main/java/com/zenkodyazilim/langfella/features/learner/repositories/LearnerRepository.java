@@ -1,4 +1,4 @@
-package com.zenkodyazilim.langfella.features.learner;
+package com.zenkodyazilim.langfella.features.learner.repositories;
 
 import com.zenkodyazilim.langfella.features.learner.entities.Learner;
 import org.springframework.data.jpa.repository.JpaRepository;

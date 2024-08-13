@@ -1,6 +1,6 @@
 package com.zenkodyazilim.langfella.features.learner.api;
 
-import com.zenkodyazilim.langfella.features.learner.LearnerRepository;
+import com.zenkodyazilim.langfella.features.learner.repositories.LearnerRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

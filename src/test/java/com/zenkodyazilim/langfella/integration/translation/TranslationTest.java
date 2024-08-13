@@ -1,7 +1,7 @@
 package com.zenkodyazilim.langfella.integration.translation;
 
 import com.zenkodyazilim.langfella.features.language.Language;
-import com.zenkodyazilim.langfella.features.learner.LearnerRepository;
+import com.zenkodyazilim.langfella.features.learner.repositories.LearnerRepository;
 import com.zenkodyazilim.langfella.features.learner.entities.Learner;
 import com.zenkodyazilim.langfella.features.learner.entities.Subscription;
 import com.zenkodyazilim.langfella.features.learner.entities.Translator;

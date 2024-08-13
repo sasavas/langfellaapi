@@ -5,6 +5,8 @@ import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
 import com.zenkodyazilim.langfella.features.learner.dtos.LearnerCreateDTO;
 import com.zenkodyazilim.langfella.features.learner.entities.Learner;
 import com.zenkodyazilim.langfella.features.learner.entities.Translator;
+import com.zenkodyazilim.langfella.features.learner.repositories.LearnerRepository;
+import com.zenkodyazilim.langfella.features.learner.repositories.TranslatorRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

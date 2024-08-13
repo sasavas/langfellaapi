@@ -1,8 +1,8 @@
 package com.zenkodyazilim.langfella.integration.learner;
 
-import com.zenkodyazilim.langfella.features.learner.LearnerRepository;
+import com.zenkodyazilim.langfella.features.learner.repositories.LearnerRepository;
 import com.zenkodyazilim.langfella.features.learner.LearnerService;
-import com.zenkodyazilim.langfella.features.learner.TranslatorRepository;
+import com.zenkodyazilim.langfella.features.learner.repositories.TranslatorRepository;
 import com.zenkodyazilim.langfella.features.learner.dtos.LearnerCreateDTO;
 import com.zenkodyazilim.langfella.features.learner.entities.Learner;
 import com.zenkodyazilim.langfella.features.learner.entities.Subscription;
