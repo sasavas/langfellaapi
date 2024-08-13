@@ -20,15 +20,25 @@ public class Learner extends BaseEntity {
 
     private boolean subscriptionActive;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "learner_dictionary",
+            joinColumns = @JoinColumn(name = "learner_id"),
+            inverseJoinColumns = @JoinColumn(name = "dictionary_id")
+    )
     private List<Dictionary> dictionaries = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "learner_translator",
+            joinColumns = @JoinColumn(name = "learner_id"),
+            inverseJoinColumns = @JoinColumn(name = "translator_id")
+    )
     private List<Translator> translators = new ArrayList<>();
 
     private String mainLanguage;
 
-    private List<String> targetLanguages;
+    private List<String> targetLanguages = new ArrayList<>();
 
     public void updateSubscription(Subscription newSubscription){
         this.subscription = newSubscription;
