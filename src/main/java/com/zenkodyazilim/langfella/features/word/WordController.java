@@ -36,7 +36,8 @@ public class WordController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Word> updateWord(@PathVariable("id") long id, @RequestBody UpdateWordDTO updateWordDTO) {
+    public ResponseEntity<Word> updateWord(@PathVariable("id") long id,
+                                           @Valid @RequestBody UpdateWordDTO updateWordDTO) {
         var updatedWord = wordService.updateWord(id, updateWordDTO);
         return ResponseEntity.ok(updatedWord);
     }
