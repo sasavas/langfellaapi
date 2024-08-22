@@ -3,6 +3,7 @@
 - [ ] Rate Limiting
 - [ ] Request Validations
 - [ ] Exception Handling
+- [ ] Logging
 
 ## DEPLOY
 
