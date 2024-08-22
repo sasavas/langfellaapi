@@ -35,6 +35,8 @@ public class WordController {
         return new ResponseEntity<>(word, HttpStatus.CREATED);
     }
 
+    //TODO Update this endpoint to accept both adding and updating (combine with createWord endpoint)
+    // in the service, if the word already exists then just add the new translations and example sentences.
     @PutMapping("{id}")
     public ResponseEntity<Word> updateWord(@PathVariable("id") long id,
                                            @Valid @RequestBody UpdateWordDTO updateWordDTO) {
