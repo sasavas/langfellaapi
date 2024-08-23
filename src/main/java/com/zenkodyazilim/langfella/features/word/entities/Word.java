@@ -43,12 +43,23 @@ public class Word extends BaseEntity {
         this.familiarity = Familiarity.fromInt(familiarity);
     }
 
+    public void addTranslation(Translation translation){
+        this.translations.add(translation);
+        translation.setWord(this);
+    }
+
     public void setTranslations(Set<Translation> translations){
         if(translations.isEmpty()){
             throw new WordMustContainTranslationException();
         }
 
+        translations.forEach(t -> t.setWord(this));
         this.translations = translations;
+    }
+
+    public void addExampleSentence(ExampleSentence exampleSentence){
+        this.exampleSentences.add(exampleSentence);
+        exampleSentence.setWord(this);
     }
 
     public void setExampleSentences(Set<ExampleSentence> exampleSentences){
@@ -56,6 +67,7 @@ public class Word extends BaseEntity {
             throw new ExampleSentenceMustContainTheWordException();
         }
 
+        exampleSentences.forEach(e -> e.setWord(this));
         this.exampleSentences = exampleSentences;
     }
 }

@@ -2,8 +2,9 @@
 
 - [ ] Security
 - [ ] Rate Limiting
-- [ ] Exception Handling
 - [ ] Logging
+- [ ] Localization
+- [x] Exception Handling
 - [x] Request Validations
 
 ## DEPLOY

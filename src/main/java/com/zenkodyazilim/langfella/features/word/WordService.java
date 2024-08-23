@@ -38,6 +38,8 @@ public class WordService {
                 createWordDTO.targetLanguageCode(),
                 createWordDTO.familiarity().orElse(0));
 
+        word.setTranslations(createWordDTO.translations().stream().map(Translation::new).collect(Collectors.toSet()));
+
         if (createWordDTO.articleId().isPresent()) {
             word.setArticleId(createWordDTO.articleId().get());
         }
@@ -46,14 +48,8 @@ public class WordService {
             word.setChapterId(createWordDTO.chapterId().get());
         }
 
-        var translations = createWordDTO.translations().stream().map(Translation::new).collect(Collectors.toSet());
-        translations.forEach(t -> t.setWord(word));
-        word.setTranslations(translations);
-
         if (createWordDTO.exampleSentence().isPresent()) {
-            var sentence = new ExampleSentence(createWordDTO.exampleSentence().get());
-            sentence.setWord(word);
-            word.setExampleSentences(Set.of(sentence));
+            word.setExampleSentences(Set.of(new ExampleSentence(createWordDTO.exampleSentence().get())));
         }
 
         return wordRepository.save(word);

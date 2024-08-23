@@ -4,20 +4,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import com.zenkodyazilim.langfella.features.article.entities.converters.LevelConverter;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "articles")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class Article extends BaseEntity {
     private String languageCode;
 
@@ -43,11 +40,12 @@ public class Article extends BaseEntity {
             String levelCode,
             String title
     ) {
-        return Article.builder()
-                .languageCode(languageCode)
-                .level(Level.findByLevelCode(levelCode))
-                .title(title)
-                .build();
+        var article = new Article();
+        article.setLanguageCode(languageCode);
+        article.setLevel(Level.findByLevelCode(levelCode));
+        article.setTitle(title);
+
+        return article;
     }
 
     private static List<String> getAllWordsInAllChapters(List<Chapter> chapters) {
@@ -58,14 +56,25 @@ public class Article extends BaseEntity {
                 .toList();
     }
 
+    public List<Chapter> getChapters() {
+        return Collections.unmodifiableList(chapters);
+    }
+
     public void setChapters(List<Chapter> chapters) {
         this.chapters = chapters;
+        chapters.forEach(c -> c.setArticle(this));
 
         var allWords = getAllWordsInAllChapters(chapters);
         this.wordCount = allWords.size();
         this.uniqueWordCount = new HashSet<>(allWords).size();
     }
 
+    public List<Author> getAuthors() {
+        return Collections.unmodifiableList(authors);
+    }
 
-//    public List<Word> words;
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+        authors.forEach(a -> a.setArticle(this));
+    }
 }

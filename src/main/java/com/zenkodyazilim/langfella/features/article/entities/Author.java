@@ -17,7 +17,7 @@ public class Author extends BaseEntity {
     private String lastName;
 
     @ManyToOne
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "ARTICLE_ID")
     @JsonBackReference
     private Article article;
 

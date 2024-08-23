@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 public class ChapterTest {
     @Test
     public void testChapterMustHaveAtLeastOneContentItem() {
-        assertThatThrownBy(() -> Chapter.Create(null, "Chapter 1", List.of()))
+        assertThatThrownBy(() -> Chapter.of(null, "Chapter 1", List.of()))
                 .isInstanceOf(ChapterMustHaveContentException.class)
                 .hasMessageContaining("Chapter must have at least one Content Item");
     }
@@ -24,7 +24,7 @@ public class ChapterTest {
         ContentItem contentItem1 = ContentItem.Create(ContentTag.P, "This is a short story about Japan.");
         ContentItem contentItem2 = ContentItem.Create(ContentTag.H1, "Chapter Title");
 
-        Chapter chapter = Chapter.Create(null, "Test Chapter Title", List.of(contentItem1, contentItem2));
+        Chapter chapter = Chapter.of(null, "Test Chapter Title", List.of(contentItem1, contentItem2));
         contentItem1.setChapter(chapter);
         contentItem2.setChapter(chapter);
 
@@ -37,7 +37,7 @@ public class ChapterTest {
         ContentItem contentItem1 = ContentItem.Create(ContentTag.P, longContent);
         ContentItem contentItem2 = ContentItem.Create(ContentTag.H1, "Chapter Title");
 
-        Chapter chapter = Chapter.Create(null, "Test Chapter Title", List.of(contentItem1, contentItem2));
+        Chapter chapter = Chapter.of(null, "Test Chapter Title", List.of(contentItem1, contentItem2));
         contentItem1.setChapter(chapter);
         contentItem2.setChapter(chapter);
 
@@ -48,7 +48,7 @@ public class ChapterTest {
     public void testGetSummaryWithNoParagraphContent() {
         ContentItem contentItem1 = ContentItem.Create(ContentTag.H1, "Chapter Title");
 
-        Chapter chapter = Chapter.Create(null, "Test Chapter Title", List.of(contentItem1));
+        Chapter chapter = Chapter.of(null, "Test Chapter Title", List.of(contentItem1));
         contentItem1.setChapter(chapter);
 
         assertThat(chapter.getSummary()).isEqualTo("");
@@ -60,7 +60,7 @@ public class ChapterTest {
         ContentItem contentItem2 = ContentItem.Create(ContentTag.P, "This is the second paragraph.");
         ContentItem contentItem3 = ContentItem.Create(ContentTag.H1, "Chapter Title");
 
-        Chapter chapter = Chapter.Create(null, "Test Chapter Title", List.of(contentItem1, contentItem2, contentItem3));
+        Chapter chapter = Chapter.of(null, "Test Chapter Title", List.of(contentItem1, contentItem2, contentItem3));
         contentItem1.setChapter(chapter);
         contentItem2.setChapter(chapter);
         contentItem3.setChapter(chapter);

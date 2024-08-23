@@ -57,23 +57,18 @@ public class ArticleService {
 
         // create and link chapters
         AtomicInteger chapterCount = new AtomicInteger(1);
-        var chapters = createArticleDTO.chapters().stream()
-                .map(createChapterDTO -> Chapter.Create(
-                        article,
+        article.setChapters(createArticleDTO.chapters().stream()
+                .map(createChapterDTO -> Chapter.of(
+//                        article,
                         createChapterDTO.title().orElse("Chapter " + chapterCount.getAndIncrement()),
                         List.of(ContentItem.Create(ContentTag.P, createChapterDTO.storyLine())))
-                ).toList();
-        article.setChapters(chapters);
-        chapters.forEach(chapter -> {
-            chapter.setArticle(article);
-            chapter.getContents().forEach(contentItem -> contentItem.setChapter(chapter));
-        });
+                )
+                .toList());
 
         // create and link authors
         if (createArticleDTO.authors().isPresent()) {
-            var authors = createArticleDTO.authors().get().stream().map(a -> Author.Create(a.firstName(), a.lastName())).toList();
-            authors.forEach(author -> author.setArticle(article));
-            article.setAuthors(authors);
+            article.setAuthors(createArticleDTO.authors().get().stream()
+                    .map(a -> Author.Create(a.firstName(), a.lastName())).toList());
         }
 
 

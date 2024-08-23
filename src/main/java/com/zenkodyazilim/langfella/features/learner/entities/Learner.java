@@ -23,16 +23,16 @@ public class Learner extends BaseEntity {
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "learner_dictionary",
-            joinColumns = @JoinColumn(name = "learner_id"),
-            inverseJoinColumns = @JoinColumn(name = "dictionary_id")
+            joinColumns = @JoinColumn(name = "LEARNER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "DICTIONARY_ID")
     )
     private List<Dictionary> dictionaries = new ArrayList<>();
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "learner_translator",
-            joinColumns = @JoinColumn(name = "learner_id"),
-            inverseJoinColumns = @JoinColumn(name = "translator_id")
+            joinColumns = @JoinColumn(name = "LEARNER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "TRANSLATOR_ID")
     )
     private List<Translator> translators = new ArrayList<>();
 

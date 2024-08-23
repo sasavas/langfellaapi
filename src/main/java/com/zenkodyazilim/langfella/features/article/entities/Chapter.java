@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import com.zenkodyazilim.langfella.features.article.exceptions.ChapterMustHaveContentException;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
+@NoArgsConstructor
 @Table(name = "chapter")
 public class Chapter extends BaseEntity {
     private String title;
@@ -26,24 +26,44 @@ public class Chapter extends BaseEntity {
     private int wordCount;
 
     @ManyToOne
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "ARTICLE_ID")
     @JsonBackReference
     private Article article;
 
-    public static Chapter Create(Article article, String title, List<ContentItem> contentItems) {
+    public static Chapter of(Article article, String title, List<ContentItem> contentItems) {
         if (contentItems == null || contentItems.isEmpty()) {
             throw new ChapterMustHaveContentException();
         }
 
-        return Chapter.builder()
-                .title(title)
-                .article(article)
-                .contents(contentItems)
-                .wordCount(contentItems.stream()
-                        .map(c -> c.getContent().split(" ").length)
-                        .reduce(Integer::sum)
-                        .orElseThrow(ChapterMustHaveContentException::new))
-                .build();
+        var chapter = new Chapter();
+        chapter.setTitle(title);
+        chapter.setArticle(article);
+        chapter.setContents(contentItems);
+        chapter.setWordCount(contentItems.stream()
+                .map(c -> c.getContent().split(" ").length)
+                .reduce(Integer::sum)
+                .orElseThrow(ChapterMustHaveContentException::new));
+
+        contentItems.forEach(c -> c.setChapter(chapter));
+
+        return chapter;
+    }
+
+    public static Chapter of(String title, List<ContentItem> contentItems) {
+        if (contentItems == null || contentItems.isEmpty()) {
+            throw new ChapterMustHaveContentException();
+        }
+
+        var chapter = new Chapter();
+
+        chapter.setTitle(title);
+        chapter.setContents(contentItems);
+        chapter.setWordCount(contentItems.stream()
+                .map(c -> c.getContent().split(" ").length)
+                .reduce(Integer::sum)
+                .orElseThrow(ChapterMustHaveContentException::new));
+
+        return chapter;
     }
 
     public String getSummary() {

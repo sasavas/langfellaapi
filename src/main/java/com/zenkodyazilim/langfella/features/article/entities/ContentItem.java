@@ -17,7 +17,7 @@ public class ContentItem extends BaseEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "chapter_id")
+    @JoinColumn(name = "CHAPTER_ID")
     @JsonBackReference
     private Chapter chapter;
 

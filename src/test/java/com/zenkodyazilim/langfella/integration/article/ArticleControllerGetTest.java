@@ -5,6 +5,7 @@ import com.zenkodyazilim.langfella.features.article.dtos.AuthorDTO;
 import com.zenkodyazilim.langfella.features.article.dtos.ChapterCreateDTO;
 import com.zenkodyazilim.langfella.features.article.dtos.CreateArticleDTO;
 import com.zenkodyazilim.langfella.features.article.entities.Level;
+import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@NoArgsConstructor
 @DirtiesContext
 public class ArticleControllerGetTest {
     @Autowired
@@ -60,12 +62,17 @@ public class ArticleControllerGetTest {
     @DirtiesContext
     public void testGetById() throws Exception {
         // Now, test getting the article by ID
-        mockMvc.perform(get("/api/articles/" + 1))
+        var result = mockMvc.perform(get("/api/articles/" + 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.title").value("Test Title"))
                 .andExpect(jsonPath("$.chapterSummaries.length()").value(1))
-                .andExpect(jsonPath("$.authors.length()").value(1));
+                .andExpect(jsonPath("$.authors.length()").value(1))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        System.out.println(result);
     }
 
     @Test

@@ -21,7 +21,7 @@ public class ArticleTest {
     public void setUp() {
         ContentItem contentItem1 = ContentItem.Create(ContentTag.H1, "Chapter Title");
         ContentItem contentItem2 = ContentItem.Create(ContentTag.P, "This is a short short story about Japan.");
-        Chapter chapter = Chapter.Create(null, "Test Chapter Title", List.of(contentItem1, contentItem2));
+        Chapter chapter = Chapter.of(null, "Test Chapter Title", List.of(contentItem1, contentItem2));
 
         article = Article.CreateByAuthors("en", "A1", "Title");
         article.setChapters(List.of(chapter));
