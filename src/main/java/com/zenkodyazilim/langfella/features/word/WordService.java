@@ -66,20 +66,13 @@ public class WordService {
 
         updateWordDTO.familiarity().ifPresent(word::setFamiliarity);
 
-        if (updateWordDTO.translationsToAdd() != null && !updateWordDTO.translationsToAdd().isEmpty()) {
-            word.getTranslations().addAll(
-                    updateWordDTO.translationsToAdd().stream()
-                            .map(Translation::new)
-                            .collect(Collectors.toSet()));
-        }
+        updateWordDTO.translationsToAdd().ifPresent((translations) ->
+                word.getTranslations().addAll(
+                        translations.stream().map(Translation::new).collect(Collectors.toSet())));
 
-        if (updateWordDTO.exampleSentencesToAdd() != null && !updateWordDTO.exampleSentencesToAdd().isEmpty()) {
-            word.getExampleSentences().addAll(
-                    updateWordDTO.exampleSentencesToAdd().stream()
-                            .map(ExampleSentence::new)
-                            .collect(Collectors.toSet())
-            );
-        }
+        updateWordDTO.exampleSentencesToAdd().ifPresent((exampleSentences) ->
+                word.getExampleSentences().addAll(
+                        exampleSentences.stream().map(ExampleSentence::new).collect(Collectors.toSet())));
 
         return wordRepository.save(word);
     }

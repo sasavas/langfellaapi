@@ -2,9 +2,11 @@ package com.zenkodyazilim.langfella.features.translation;
 
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationDTO;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +19,7 @@ public class TranslationController {
     private final TranslationService translationService;
 
     @PostMapping
-    public ResponseEntity<Set<TranslationDTO>> translate(TranslationRequest translationRequest) {
+    public ResponseEntity<Set<TranslationDTO>> translate(@Valid @RequestBody TranslationRequest translationRequest) {
         //TODO
         var learnerId = 1L;
 

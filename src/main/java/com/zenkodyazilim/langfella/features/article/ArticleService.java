@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ArticleService {
@@ -46,19 +47,20 @@ public class ArticleService {
         // create article
         var article = Article.CreateByAuthors(
                 createArticleDTO.languageCode(),
-                createArticleDTO.levelCode(),
-                createArticleDTO.title()
+                createArticleDTO.levelCode().orElse(Level.Unabdridged.code()),
+                createArticleDTO.title().orElse("No Title")
         );
 
-        if(createArticleDTO.chapters() == null || createArticleDTO.chapters().isEmpty()){
+        if (createArticleDTO.chapters() == null || createArticleDTO.chapters().isEmpty()) {
             throw new ArticleMustContainAtLeastOneChapterException();
         }
 
         // create and link chapters
+        AtomicInteger chapterCount = new AtomicInteger(1);
         var chapters = createArticleDTO.chapters().stream()
                 .map(createChapterDTO -> Chapter.Create(
                         article,
-                        createChapterDTO.title(),
+                        createChapterDTO.title().orElse("Chapter " + chapterCount.getAndIncrement()),
                         List.of(ContentItem.Create(ContentTag.P, createChapterDTO.storyLine())))
                 ).toList();
         article.setChapters(chapters);
@@ -68,9 +70,12 @@ public class ArticleService {
         });
 
         // create and link authors
-        var authors = createArticleDTO.authors().stream().map(a -> Author.Create(a.firstName(), a.lastName())).toList();
-        authors.forEach(author -> author.setArticle(article));
-        article.setAuthors(authors);
+        if (createArticleDTO.authors().isPresent()) {
+            var authors = createArticleDTO.authors().get().stream().map(a -> Author.Create(a.firstName(), a.lastName())).toList();
+            authors.forEach(author -> author.setArticle(article));
+            article.setAuthors(authors);
+        }
+
 
         var created = articleRepository.save(article);
         return ArticleDTO.of(created);

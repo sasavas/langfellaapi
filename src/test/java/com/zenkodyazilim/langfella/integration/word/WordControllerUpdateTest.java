@@ -1,6 +1,7 @@
 package com.zenkodyazilim.langfella.integration.word;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.zenkodyazilim.langfella.features.word.WordRepository;
 import com.zenkodyazilim.langfella.features.word.dtos.UpdateWordDTO;
 import com.zenkodyazilim.langfella.features.word.entities.ExampleSentence;
@@ -17,6 +18,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -53,12 +55,14 @@ public class WordControllerUpdateTest {
     public void testUpdateWord() throws Exception {
         UpdateWordDTO updateWordDTO = new UpdateWordDTO(
                 null,
-                Set.of(),
-                Set.of("Another example sentence")
+                Optional.of(Set.of()),
+                Optional.of(Set.of("Another example sentence"))
         );
 
         // Convert the DTO to JSON
         var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new Jdk8Module()); // required to serialize Optional fields.
+
         String json = objectMapper.writeValueAsString(updateWordDTO);
 
         mockMvc.perform(put("/api/words/1")

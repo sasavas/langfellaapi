@@ -7,6 +7,6 @@ import java.util.Set;
 
 public record UpdateWordDTO(
         Optional<Familiarity> familiarity,
-        Set<String> translationsToAdd,
-        Set<String> exampleSentencesToAdd) {
+        Optional<Set<String>> translationsToAdd,
+        Optional<Set<String>> exampleSentencesToAdd) {
 }

@@ -15,8 +15,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,11 +36,11 @@ public class ArticleControllerGetTest {
     public void setUp() {
         CreateArticleDTO createArticleDTO = new CreateArticleDTO(
                 "en",
-                "Test Title",
-                Level.A2.code(),
-                List.of(new AuthorDTO("Alp", "Savas")),
+                Optional.of("Test Title"),
+                Optional.of(Level.A2.code()),
+                Optional.of(List.of(new AuthorDTO("Alp", "Savas"))),
                 List.of(new ChapterCreateDTO(
-                        "Chapter 1",
+                        Optional.of("Chapter 1"),
                         "This is the story of chapter 1"
                 ))
         );

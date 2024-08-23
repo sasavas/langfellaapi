@@ -44,10 +44,10 @@ public class ArticleControllerUpdateTest {
     public void testCreateArticle() throws Exception {
         CreateArticleDTO createArticleDTO = new CreateArticleDTO(
                 "en",
-                "Test Title",
-                Level.A1.code(),
-                List.of(),
-                List.of(new ChapterCreateDTO("Chapter 1", "Story begins here"))
+                Optional.of("Test Title"),
+                Optional.of(Level.A1.code()),
+                Optional.of(List.of()),
+                List.of(new ChapterCreateDTO(Optional.of("Chapter 1"), "Story begins here"))
 
         );
 
@@ -67,10 +67,10 @@ public class ArticleControllerUpdateTest {
     public void testAddWordToArticle() throws Exception {
         var article = articleService.createArticle(new CreateArticleDTO(
                 "en",
-                "Title",
-                Level.B1.code(),
-                List.of(),
-                List.of(new ChapterCreateDTO("Chapter 1", "Chapter Content")))); // throws
+                Optional.of("Title"),
+                Optional.of(Level.B1.code()),
+                Optional.of(List.of()),
+                List.of(new ChapterCreateDTO(Optional.of("Chapter 1"), "Chapter Content")))); // throws
 
         AddWordToArticleDTO addWordToArticleDTO = new AddWordToArticleDTO(
                 article.id(),
@@ -96,10 +96,10 @@ public class ArticleControllerUpdateTest {
         // First, create an article
         CreateArticleDTO createArticleDTO = new CreateArticleDTO(
                 "en",
-                "Test Title",
-                Level.A1.code(),
-                new ArrayList<>(),
-                List.of(new ChapterCreateDTO("Title", "Chapter Content"))
+                Optional.of("Test Title"),
+                Optional.of(Level.A1.code()),
+                Optional.of(new ArrayList<>()),
+                List.of(new ChapterCreateDTO(Optional.of("Title"), "Chapter Content"))
         );
         var articleDTO = articleService.createArticle(createArticleDTO);
 

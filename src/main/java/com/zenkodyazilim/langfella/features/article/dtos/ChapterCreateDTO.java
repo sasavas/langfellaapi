@@ -1,4 +1,10 @@
 package com.zenkodyazilim.langfella.features.article.dtos;
 
-public record ChapterCreateDTO(String title, String storyLine) {
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Optional;
+
+public record ChapterCreateDTO(
+        Optional<String> title,
+        @NotNull String storyLine) {
 }

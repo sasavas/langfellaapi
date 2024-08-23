@@ -5,6 +5,7 @@ import com.zenkodyazilim.langfella.features.article.dtos.ArticleDTO;
 import com.zenkodyazilim.langfella.features.article.dtos.CreateArticleDTO;
 import com.zenkodyazilim.langfella.features.article.entities.Level;
 import com.zenkodyazilim.langfella.features.word.entities.Word;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<ArticleDTO> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
+    public ResponseEntity<ArticleDTO> createArticle(@Valid @RequestBody CreateArticleDTO createArticleDTO) {
         var created = articleService.createArticle(createArticleDTO);
         return ResponseEntity.ok(created);
     }
@@ -54,8 +55,8 @@ public class ArticleController {
     }
 
     @PostMapping("{id}/words")
-    public ResponseEntity<Word> addWordToArticle(
-            @PathVariable long id, @RequestBody AddWordToArticleDTO addWordToArticleDTO) {
+    public ResponseEntity<Word> addWordToArticle(@PathVariable long id,
+                                                 @Valid @RequestBody AddWordToArticleDTO addWordToArticleDTO) {
         var addedWord = articleService.addWordToArticle(id, addWordToArticleDTO);
         return ResponseEntity.ok(addedWord);
     }
