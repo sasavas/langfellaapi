@@ -1,6 +1,6 @@
 package com.zenkodyazilim.langfella.features.word.entities;
 
-import com.zenkodyazilim.langfella.features.word.exceptions.InvalidFamiliarityLevelException;
+import com.zenkodyazilim.langfella.features.word.exceptions.IllegalFamiliarityLevelException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -21,6 +21,6 @@ public enum Familiarity {
         return Arrays.stream(Familiarity.values())
                 .filter(l -> l.level == level)
                 .findFirst()
-                .orElseThrow(() -> new InvalidFamiliarityLevelException(String.valueOf(level)));
+                .orElseThrow(() -> new IllegalFamiliarityLevelException(String.valueOf(level)));
     }
 }

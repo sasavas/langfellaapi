@@ -29,6 +29,13 @@ class ApiError {
         this.status = status;
     }
 
+    ApiError(HttpStatus status, String message, String messageKey) {
+        this();
+        this.status = status;
+        this.message = message;
+        this.messageKey = messageKey;
+    }
+
     ApiError(HttpStatus status, Throwable ex) {
         this();
         this.status = status;

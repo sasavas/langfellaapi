@@ -1,7 +1,8 @@
 package com.zenkodyazilim.langfella.common.apierrors;
 
 import com.zenkodyazilim.langfella.common.constants.MessageKeys;
-import com.zenkodyazilim.langfella.common.exceptions.EntityValidationException;
+import com.zenkodyazilim.langfella.common.exceptions.EntityDomainException;
+import com.zenkodyazilim.langfella.common.exceptions.EntityIllegalValueException;
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
 import jakarta.annotation.Nonnull;
 import org.springframework.core.Ordered;
@@ -34,17 +35,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
-        ApiError apiError = new ApiError(NOT_FOUND);
-        apiError.setMessage(ex.getMessage()); // which message?
-        apiError.setMessageKey(MessageKeys.ENTITY_NOT_FOUND);
+        ApiError apiError = new ApiError(NOT_FOUND, ex.getMessage(), MessageKeys.ENTITY_NOT_FOUND);
         return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler
-    protected ResponseEntity<Object> handleDomainValidationException(EntityValidationException ex){
-        ApiError apiError = new ApiError(BAD_REQUEST);
-        apiError.setMessage(ex.getMessage());
-        apiError.setMessageKey(MessageKeys.DOMAIN_VALIDATION);
+    protected ResponseEntity<Object> handleDomainValidationException(EntityIllegalValueException ex){
+        ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), MessageKeys.ILLEGAL_VALUE);
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler
+    protected ResponseEntity<Object> handleDomainValidationException(EntityDomainException ex){
+        ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), MessageKeys.DOMAIN_VALIDATION);
         return buildResponseEntity(apiError);
     }
 

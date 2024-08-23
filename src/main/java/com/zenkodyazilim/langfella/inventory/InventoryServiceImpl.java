@@ -1,6 +1,6 @@
 package com.zenkodyazilim.langfella.inventory;
 
-import com.zenkodyazilim.langfella.common.exceptions.EntityValidationException;
+import com.zenkodyazilim.langfella.common.exceptions.EntityIllegalValueException;
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
 import com.zenkodyazilim.langfella.common.messagebroker.OrderMessage;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ class InventoryServiceImpl implements InventoryService {
             logger.info("Inventory updated for item: {}", orderMessage.getItem());
         } else {
             logger.error("Insufficient stock for item: {}", orderMessage.getItem());
-            throw new EntityValidationException(Inventory.class.getSimpleName(), "Insufficient stock");
+            throw new EntityIllegalValueException(Inventory.class.getSimpleName(), "Insufficient stock");
         }
     }
 }

@@ -5,7 +5,7 @@ import com.zenkodyazilim.langfella.features.word.entities.Familiarity;
 import com.zenkodyazilim.langfella.features.word.entities.Translation;
 import com.zenkodyazilim.langfella.features.word.entities.Word;
 import com.zenkodyazilim.langfella.features.word.exceptions.ExampleSentenceMustContainTheWordException;
-import com.zenkodyazilim.langfella.features.word.exceptions.InvalidFamiliarityLevelException;
+import com.zenkodyazilim.langfella.features.word.exceptions.IllegalFamiliarityLevelException;
 import com.zenkodyazilim.langfella.features.word.exceptions.WordMustContainTranslationException;
 import org.junit.jupiter.api.Test;
 
@@ -66,7 +66,7 @@ public class WordTest {
 
     @Test
     public void testCreateWordThrowsExceptionForInvalidFamiliarityLevel() {
-        assertThrows(InvalidFamiliarityLevelException.class, () ->
+        assertThrows(IllegalFamiliarityLevelException.class, () ->
                 new Word("word", "en", "fr", 4));
     }
 
