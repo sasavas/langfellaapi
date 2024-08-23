@@ -2,8 +2,8 @@
 
 - [ ] Security
 - [ ] Rate Limiting
-- [ ] Logging
 - [ ] Localization
+- [ ] Logging
 - [x] Exception Handling
 - [x] Request Validations
 
