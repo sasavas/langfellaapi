@@ -3,10 +3,12 @@ package com.zenkodyazilim.langfella.features.word;
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
 import com.zenkodyazilim.langfella.features.word.dtos.CreateWordDTO;
 import com.zenkodyazilim.langfella.features.word.dtos.UpdateWordDTO;
+import com.zenkodyazilim.langfella.features.word.dtos.WordDTO;
 import com.zenkodyazilim.langfella.features.word.entities.ExampleSentence;
 import com.zenkodyazilim.langfella.features.word.entities.Translation;
 import com.zenkodyazilim.langfella.features.word.entities.Word;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +23,15 @@ public class WordService {
         this.wordRepository = wordRepository;
     }
 
-    public List<Word> getWords() {
-        return wordRepository.findAll();
+    @Cacheable("words")
+    public List<WordDTO> getWords() {
+        System.out.println("In the method: getWords()");
+        return wordRepository.findAll().stream().map(WordDTO::of).toList();
     }
 
-    public Word getWordById(long id) {
+    public WordDTO getWordById(long id) {
         return wordRepository.findById(id)
+                .map(WordDTO::of)
                 .orElseThrow(() -> new EntityNotFoundException(Word.class.getSimpleName(), String.valueOf(id)));
     }
 

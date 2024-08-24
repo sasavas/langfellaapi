@@ -2,6 +2,7 @@ package com.zenkodyazilim.langfella.features.word;
 
 import com.zenkodyazilim.langfella.features.word.dtos.CreateWordDTO;
 import com.zenkodyazilim.langfella.features.word.dtos.UpdateWordDTO;
+import com.zenkodyazilim.langfella.features.word.dtos.WordDTO;
 import com.zenkodyazilim.langfella.features.word.entities.Word;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,12 @@ public class WordController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Word>> getWords() {
+    public ResponseEntity<List<WordDTO>> getWords() {
         return ResponseEntity.ok(wordService.getWords());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Word> getWordById(@PathVariable("id") long id) {
+    public ResponseEntity<WordDTO> getWordById(@PathVariable("id") long id) {
         return ResponseEntity.ok(wordService.getWordById(id));
     }
 

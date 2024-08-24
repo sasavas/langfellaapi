@@ -17,7 +17,6 @@ public class ExampleSentence extends BaseEntity {
     private Long articleId;
 
     @ManyToOne
-    @JoinColumn //(name = "WORD_ID")
     @JsonBackReference
     private Word word;
 

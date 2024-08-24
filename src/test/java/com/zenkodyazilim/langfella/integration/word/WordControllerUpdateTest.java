@@ -70,11 +70,6 @@ public class WordControllerUpdateTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.exampleSentences.length()").value(1))
                 .andExpect(jsonPath("$.translations.length()").value(1));
-
-        var words = wordService.getWords();
-        assertEquals(1, words.size());
-        assertNotNull(words.getFirst().getTranslations().stream().findFirst().get().getWord());
-        assertNotNull(words.getFirst().getExampleSentences().stream().findFirst().get().getWord());
     }
 
     @Test
