@@ -2,6 +2,7 @@ package com.zenkodyazilim.langfella.features.learner.entities;
 
 import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +35,16 @@ public class Learner extends BaseEntity {
             joinColumns = @JoinColumn(name = "LEARNER_ID"),
             inverseJoinColumns = @JoinColumn(name = "TRANSLATOR_ID")
     )
+    @Setter(AccessLevel.NONE)
     private List<Translator> translators = new ArrayList<>();
+
+    private void addTranslator(Translator translator){
+        this.translators.add(translator);
+    }
+
+    private void removeTranslator(long id){
+        this.translators.removeIf(t -> t.getId() == id);
+    }
 
     private String mainLanguage;
 

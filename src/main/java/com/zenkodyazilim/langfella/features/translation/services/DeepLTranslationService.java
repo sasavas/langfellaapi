@@ -4,15 +4,15 @@ import com.deepl.api.TextResult;
 import com.deepl.api.Translator;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationDTO;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationRequest;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 class DeepLTranslationService implements TranslationServiceGateway {
-    @Value("${translator.deepl.api-key}")
-    private String apiKey;
+    private final DeepLTranslatorConfig config;
 
     @Override
     public String getServiceName() {
@@ -21,7 +21,7 @@ class DeepLTranslationService implements TranslationServiceGateway {
 
     @Override
     public Optional<TranslationDTO> translate(TranslationRequest translationRequest) {
-        Translator translator = new Translator(apiKey);
+        Translator translator = new Translator(config.getApiKey());
 
         try {
             TextResult result = translator.translateText(

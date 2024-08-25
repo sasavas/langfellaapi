@@ -44,7 +44,7 @@ public class LearnerUpdateTest {
         learner.setId(1);
         learner.setSubscription(Subscription.BASIC);
         learner.setMainLanguage("en");
-        learnerService.addNewLearner(new LearnerCreateDTO(1, "en", Subscription.BASIC));
+        learnerService.createNewLearner(new LearnerCreateDTO(1, "en", Subscription.BASIC));
 
         // add a translator
         Translator translator = new Translator();

@@ -20,7 +20,7 @@ public class LearnerService {
     private final TranslatorRepository translatorRepository;
 
     @Transactional
-    public Learner addNewLearner(LearnerCreateDTO learnerCreateDTO){
+    public Learner createNewLearner(LearnerCreateDTO learnerCreateDTO){
         var learner = new Learner();
         learner.setMainLanguage(learnerCreateDTO.mainLanguage());
         learner.setSubscription(learnerCreateDTO.subscription());
