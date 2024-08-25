@@ -2,6 +2,7 @@ package com.zenkodyazilim.langfella.features.translation.services;
 
 import com.deepl.api.TextResult;
 import com.deepl.api.Translator;
+import com.zenkodyazilim.langfella.features.translation.config.DeepLTranslatorConfig;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationDTO;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationRequest;
 import lombok.AllArgsConstructor;

@@ -1,10 +1,10 @@
 package com.zenkodyazilim.langfella.features.translation.services;
 
 import com.google.cloud.translate.v3.*;
+import com.zenkodyazilim.langfella.features.translation.config.GoogleTranslatorConfig;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationDTO;
 import com.zenkodyazilim.langfella.features.translation.dtos.TranslationRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
