@@ -5,6 +5,8 @@ import com.zenkodyazilim.langfella.common.exceptions.EntityDomainException;
 import com.zenkodyazilim.langfella.common.exceptions.EntityIllegalValueException;
 import com.zenkodyazilim.langfella.common.exceptions.EntityNotFoundException;
 import jakarta.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +25,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             @Nonnull HttpMessageNotReadableException ex,
@@ -35,19 +39,29 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
+        logger.warn("Entity not found: {}", ex.getMessage());
         ApiError apiError = new ApiError(NOT_FOUND, ex.getMessage(), MessageKeys.ENTITY_NOT_FOUND);
         return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler
-    protected ResponseEntity<Object> handleDomainValidationException(EntityIllegalValueException ex){
+    protected ResponseEntity<Object> handleDomainValidationException(EntityIllegalValueException ex) {
+        logger.warn("Validation failed: {}", ex.getMessage());
         ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), MessageKeys.ILLEGAL_VALUE);
         return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler
-    protected ResponseEntity<Object> handleDomainValidationException(EntityDomainException ex){
+    protected ResponseEntity<Object> handleDomainValidationException(EntityDomainException ex) {
+        logger.warn("Business rule violation: {}", ex.getMessage());
         ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), MessageKeys.DOMAIN_VALIDATION);
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<Object> handleInternalServerError(Exception ex) {
+        logger.error("Unexpected internal server error: {}", ex.getMessage(), ex);
+        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred. Please try again later.", MessageKeys.INTERNAL_SERVER_ERROR);
         return buildResponseEntity(apiError);
     }
 
