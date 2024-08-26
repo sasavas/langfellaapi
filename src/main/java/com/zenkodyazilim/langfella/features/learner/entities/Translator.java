@@ -1,5 +1,6 @@
 package com.zenkodyazilim.langfella.features.learner.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -19,6 +20,7 @@ public class Translator extends BaseEntity {
     private String description;
 
     @ManyToMany(mappedBy = "translators")
+    @JsonBackReference
     private List<Learner> learners = new ArrayList<>();
 
     public static Translator of(String name, String description){

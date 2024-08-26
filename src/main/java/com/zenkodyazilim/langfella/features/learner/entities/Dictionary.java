@@ -1,5 +1,6 @@
 package com.zenkodyazilim.langfella.features.learner.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.zenkodyazilim.langfella.common.models.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -20,5 +21,6 @@ public class Dictionary extends BaseEntity {
     private String targetLanguageCode;
 
     @ManyToMany(mappedBy = "dictionaries")
+    @JsonBackReference
     private List<Learner> learners = new ArrayList<>();
 }
