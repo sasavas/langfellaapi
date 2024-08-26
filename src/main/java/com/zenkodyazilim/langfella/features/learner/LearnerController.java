@@ -13,7 +13,7 @@ import java.util.List;
 public class LearnerController {
     private final LearnerService learnerService;
 
-    @GetMapping("/{id}/translators/{translatorId}")
+    @PostMapping("/{id}/translators/{translatorId}")
     ResponseEntity<Void> addTranslator(@PathVariable long id, @PathVariable long translatorId) {
         learnerService.addTranslator(id, translatorId);
         return ResponseEntity.noContent().build();
