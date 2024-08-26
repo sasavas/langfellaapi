@@ -1,11 +1,17 @@
 ## TODO (Non-Functional Requirements)
 
 - [ ] Security
-- [ ] Rate Limiting
 - [ ] Localization
-- [ ] Logging
+- [ ] Rate Limiting
+- [x] Caching
+- [x] Logging
 - [x] Exception Handling
 - [x] Request Validations
+
+## TODO (Functional Requirements)
+
+- [ ] E-book converter services
+- 
 
 ## DEPLOY
 
