@@ -1,12 +1,12 @@
 package com.zenkodyazilim.langfella.integration.learner;
 
-import com.zenkodyazilim.langfella.features.learner.repositories.LearnerRepository;
 import com.zenkodyazilim.langfella.features.learner.LearnerService;
-import com.zenkodyazilim.langfella.features.learner.repositories.TranslatorRepository;
 import com.zenkodyazilim.langfella.features.learner.dtos.LearnerCreateDTO;
 import com.zenkodyazilim.langfella.features.learner.entities.Learner;
 import com.zenkodyazilim.langfella.features.learner.entities.Subscription;
 import com.zenkodyazilim.langfella.features.learner.entities.Translator;
+import com.zenkodyazilim.langfella.features.learner.repositories.LearnerRepository;
+import com.zenkodyazilim.langfella.features.learner.repositories.TranslatorRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -38,7 +38,7 @@ public class LearnerUpdateTest {
     private TranslatorRepository translatorRepository;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         // add learner
         Learner learner = new Learner();
         learner.setId(1);
@@ -57,9 +57,9 @@ public class LearnerUpdateTest {
     @Test
     @Transactional
     @DirtiesContext
-    public void AddAndRemoveTranslatorToLearner() throws Exception{
+    public void AddAndRemoveTranslatorToLearner() throws Exception {
         // perform adding translator
-        mockMvc.perform(get("/api/learner/1/translators/1"))
+        mockMvc.perform(post("/api/learner/1/translators/1"))
                 .andExpect(status().isNoContent());
 
         // verify

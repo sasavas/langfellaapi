@@ -8,12 +8,14 @@ import com.zenkodyazilim.langfella.features.learner.repositories.TranslatorRepos
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Profile("!test")
 public class DatabaseInitializer implements ApplicationRunner {
     private final LearnerService learnerService;
     private final TranslatorRepository translatorRepository;
