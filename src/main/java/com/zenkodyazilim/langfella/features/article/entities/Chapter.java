@@ -26,7 +26,6 @@ public class Chapter extends BaseEntity {
     private int wordCount;
 
     @ManyToOne
-    @JoinColumn(name = "ARTICLE_ID")
     @JsonBackReference
     private Article article;
 
