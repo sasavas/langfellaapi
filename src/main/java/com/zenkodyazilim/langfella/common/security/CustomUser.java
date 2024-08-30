@@ -1,4 +1,4 @@
-package com.zenkodyazilim.langfella.common.security.entities;
+package com.zenkodyazilim.langfella.common.security;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +16,4 @@ public class CustomUser {
     private String password;
     private String role;
     private Boolean enabled;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Set<Authority> authorities;
 }
