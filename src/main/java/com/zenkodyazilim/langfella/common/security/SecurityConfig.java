@@ -1,44 +1,63 @@
 package com.zenkodyazilim.langfella.common.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
+    public static final String[] AUTH_WHITELIST = {
+            "/h2-console/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/signin",
+            "/register"
+    };
+
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
+
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(Customizer.withDefaults()) // Disable CSRF for simplicity (enable in production)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/public/**").permitAll() // Allow public access to these endpoints
-                        .anyRequest().authenticated() // All other requests need authentication
-                )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
-//                .formLogin(form -> form
-//                        .loginPage("/login") // Specify custom login page
-//                        .permitAll()
-//                )
-                .logout(LogoutConfigurer::permitAll);
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // Required to allow H2 console in a frame (below)
+                // .frameOptions(frameOptions -> frameOptions.sameOrigin())
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new CustomUserDetailsService();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,22 +65,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.builder()
-                .username("user")
-                .password(passwordEncoder.encode("password"))
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-                                                         PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return authProvider;
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+        return builder.getAuthenticationManager();
     }
 }
